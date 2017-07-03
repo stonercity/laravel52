@@ -17,9 +17,19 @@
     height:300px;
     float:left;
 }
+/*li{
+   list-style: none;
+}*/
 #detial{
     width:800px;
     height:300px;
     float:left;
     /*background-color:red;*/
+}
+#c_list{
+    width:1000px;
+    text-align: left;
+}
+a{
+    text-decoration: none;
 }
