@@ -12,8 +12,8 @@
             <div id="head">
                 @section('head')
                 <h1>This is a test.</h1>
-                <hr>
                 @show
+                <hr>
             </div>
             <div id="content"> 
                 @section('content')
@@ -23,6 +23,7 @@
             <div id="foot">
                 <hr>
                 @section('foot')
+                <p >Made by feng @2017 。</p>
                 @show
             </div>
             

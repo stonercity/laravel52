@@ -11,9 +11,11 @@
 |
 */
 
-Route::any('gui',['uses'=>'TestController@index']);
+Route::any('login',['uses'=>'TestController@index']);
+Route::any('i_main',['uses'=>'TestController@i_main']);
+Route::get('login_out',['uses'=>'TestController@login_out']);
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Test/index');
 });
