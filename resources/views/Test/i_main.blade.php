@@ -1,7 +1,5 @@
 @extends('layout/layout')
-@section('head')
-<p>当前用户：<b>{{Session()->get('user')}}</b> 欢迎您的登录！<a href="{{url('login_out')}}">注销</a></p>
-@stop
+
 @section('content')
 <div id="all_list">
     <p align="left">我的文章:</p>
@@ -12,7 +10,7 @@
             @endforeach
     </div>
     <div>
-        <p><a href="{{url('i_upload')}}">添加一篇新文章</a></p>
+        <p><a href="{{url('upload')}}">添加一篇新文章</a></p>
     </div>
 </div>
 @stop

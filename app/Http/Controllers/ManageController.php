@@ -6,32 +6,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Test;
 use App\Content;
+use App\Admin;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
 
-class TestController extends Controller{
+class ManageController extends Controller{
     
 //    用户登录界面
     
     public function index(Request $request){
         if($request->isMethod('post')){
           $user=$request->all();
-//          $i=Test::where(['username'=>$user['user_name'],'password'=>$user['user_password']])->get();
-//          dd(!$i->isEmpty());
-//          if(Test::where(['username'=>$user['user_name'],'password'=>$user['user_password']])->get()){
-//              echo 'haole';
-//          }
-        if(!Test::where('username','=',$user['user_name'])->where('password','=',$user['user_password'])->get()->isEmpty()){
-            Session()->put('user',$user['user_name']);
-            return Redirect('i_main');
+                    
+        if(!Admin::where('username','=',$user['user_name'])->where('password','=',$user['user_password'])->get()->isEmpty()){
+            Session()->put('admin',$user['user_name']);
+            return Redirect('m_main');
+//            return Redirect('m_main');
         }
         else{
-            return Redirect('i_main')->with('result','登录失败！');
+            return Redirect('m_main')->with('result','登录失败！');
         }
         }
         
-        return view('Test/index');
+        return view('Manage/m_index');
     }
     
 //    用户登录后主页面
@@ -40,15 +38,15 @@ class TestController extends Controller{
         
         if(Session()->has('result'))
         {
-            echo '<script language="javascript">alert("登录失败!\n用户名或密码错误！");location.href="'.url('i_main').'"</script>';
+            echo '<script language="javascript">alert("登录失败!\n用户名或密码错误！");location.href="'.url('m_main').'"</script>';
         }
         else{
         if(Session()->has('user')){
-            $content=Content::where('sure','=',1)->get();
-            return view('Test/i_main',['list'=>$content]);
+            $content=Content::all();
+            return view('Manage/m_main',['list'=>$content]);
         }
         else{
-            return Redirect('login');
+            return Redirect('m_login');
         }
         }
     }
@@ -59,7 +57,29 @@ class TestController extends Controller{
         
         $detial=content::where('id','=',$id)->get();
         
-        return view('Test/content',['detial'=>$detial]);
+        return view('Manage/m_content',['detial'=>$detial]);
+    }
+    
+//    审查文章
+    
+    public function m_access($id){
+//        if($request)
+//        DB::table('content')
+//                    ->where('id', $id)
+//                    ->update(['sure'=>1]);
+        $detial=content::where('id','=',$id)->get();
+        return view('Manage/m_access',['detial'=>$detial]);
+        
+    }
+    
+//    通过审核
+    
+    public function m_ok($id){
+        
+        DB::table('content')
+                    ->where('id', $id)
+                    ->update(['sure'=>1]);
+        return Redirect('m_main');
     }
     
 //    更新数据
@@ -68,7 +88,7 @@ class TestController extends Controller{
         
         $update=content::where('id','=',$id)->get();
         
-        return view('Test/update',['update'=>$update]);
+        return view('Manage/m_update',['update'=>$update]);
     }
     
 //    上传数据
@@ -81,10 +101,10 @@ class TestController extends Controller{
 //            $user['user_name']
             DB::table('content')->insert(['user'=>Session()->get('user'),'content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'up_time'=>date('Y-m-d h:i:sa',time()+8*60*60),'updated_at'=>date('Y-m-d h:i:s',time()+8*60*60)]);
          
-            return Redirect('i_main');
+            return Redirect('m_main');
          }
          
-         return view('Test/upload');
+         return view('Manage/m_upload');
     }
     
 //    删除
@@ -92,8 +112,8 @@ class TestController extends Controller{
         
             DB::table('content')
                     ->where('id', $id)
-                    ->update(['sure'=>2]);
-            return Redirect('i_main');
+                    ->delete();
+            return Redirect('m_main');
     
     }
 //    更新数据上传
@@ -115,7 +135,7 @@ class TestController extends Controller{
 //            $content->sure=$info['content_sure'];
 //            $content->title=$info['content_title'];            
 //            if($content->save()){
-                return Redirect('i_main');
+                return Redirect('m_main');
 //            }
             
        }
@@ -130,7 +150,7 @@ class TestController extends Controller{
     
     public function login_out(){
         Session()->flush();
-        return Redirect('login');
+        return Redirect('m_login');
     }
     
 }

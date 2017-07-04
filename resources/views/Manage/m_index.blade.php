@@ -1,13 +1,13 @@
 @extends('layout/layout')
 @section('title')
-登录页面
+管理员登录页面
 @stop
 @section('head')
-<h1>登录页面</h1>
+<h1>管理员登录页面！</h1>
 @stop
 @section('content')
 <table id="table_i">
-<form action="{{url('login')}}" method="post">
+<form action="{{url('m_login')}}" method="post">
     {{csrf_field()}}
         <tr>
             <td colspan="2" align='center'>Login</td>

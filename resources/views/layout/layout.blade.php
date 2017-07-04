@@ -11,7 +11,8 @@
         <div id="all">
             <div id="head">
                 @section('head')
-                <h1>This is a test.</h1>
+                <p>当前用户：<b>{{Session()->get('user')}}</b> 欢迎您的登录！<a href="{{url('login_out')}}">注销</a></p>
+                <p style='text-align: left;'><a href="{{url('m_main')}}">首页</a>》</p>
                 @show
                 <hr>
             </div>
