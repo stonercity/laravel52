@@ -32,6 +32,18 @@ class TestController extends Controller{
         return view('Test/index');
     }
     
+//    用户注册页面
+    
+    public function regedit(Request $request){
+        if($request->isMethod('post')){
+            $info=$request->all();            
+            DB::table('user')->insert(['username'=>$info['user_username'],'password'=>$info['user_password'],'sex'=>$info['user_sex'],'qq'=>$info['user_qq']]);
+         return '成功！';
+//            return Redirect('i_main')->with('rege','注册成功！');
+         }
+        return view('Test/regedit');
+    }
+    
 //    用户登录后主页面
     
     public function i_main(){

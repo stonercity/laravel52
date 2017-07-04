@@ -5,6 +5,7 @@
 
 
 @section('content')
+<div align='center'>
 <table>
      <form action="{{url('upload')}}" method="post">
          
@@ -32,4 +33,5 @@
      
      </form>
  </table>
+</div>
 @stop
