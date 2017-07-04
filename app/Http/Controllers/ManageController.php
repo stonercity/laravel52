@@ -41,7 +41,8 @@ class ManageController extends Controller{
         }
         else{
             if(Session()->has('admin')){
-                $content=Content::all();
+                
+                $content=Content::paginate(5);
                 return view('Manage/m_main',['list'=>$content]);
             }
             else{

@@ -17,9 +17,16 @@
     height:300px;
     float:left;
 }
-/*li{
+li{
    list-style: none;
-}*/
+   width:20px;
+   float:left;
+}
+.pagination{
+    width:120px;
+    margin:30px auto ;
+    background-color:red;
+}
 #detial{
     width:800px;
     height:300px;

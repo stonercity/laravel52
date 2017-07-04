@@ -42,7 +42,7 @@ class TestController extends Controller{
         }
         else{
         if(Session()->has('user')){
-            $content=Content::where('user','=',Session()->get('user'))->where('sure','=',1)->get();
+            $content=Content::where('user','=',Session()->get('user'))->where('sure','=',1)->paginate(3);
             return view('Test/i_main',['list'=>$content]);
         }
         else{

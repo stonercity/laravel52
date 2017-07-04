@@ -1,6 +1,6 @@
 @extends('layout/layout')
 @section('head')
-<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
+<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}" onclick="return confirm('确定退出登录？');">注销</a></p>
 @stop
 @section('content')
 <div id="all_list">
@@ -13,9 +13,11 @@
                 <span style="text-align: right;float: right; width:300px;">{{$m->sure==0 ? '待审查':($m->sure==2 ? '已删':$m->up_time)}}</span>
             </p>
             @endforeach
+            
     </div>
     <div>
-        <p><a href="{{url('m_upload')}}">添加一篇新文章</a></p>
+        <div style="padding:0 0 20px 0;">{{$list->render()}}</div>
+        <p style="clear:both;"><a href="{{url('m_upload')}}">添加一篇新文章</a></p>
     </div>
 </div>
 @stop

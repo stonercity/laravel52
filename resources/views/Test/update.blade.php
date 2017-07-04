@@ -32,7 +32,7 @@
      </tr>
      <tr>
          <td><input type="reset"  value="重置"></td>
-         <td><input type="submit"  value="提交"></td>
+         <td><input type="submit"  value="提交" onclick="return confirm('确定要保存已经修改的内容？');"></td>
      </tr>
      
      </form>

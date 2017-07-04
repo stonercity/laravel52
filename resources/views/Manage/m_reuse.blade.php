@@ -5,7 +5,7 @@
 @stop
 
 @section('head')
-<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
+<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}" onclick="return confirm('确定退出登录？');">注销</a></p>
 <p style='text-align: left;'><a href="{{url('m_main')}}">首页</a>》</p>
 @stop
 
@@ -34,8 +34,8 @@
      <input type="hidden" name="content.sure" value="1">
      </tr>
      <tr>
-         <td><input type="reset"  value="重置"></td>
-         <td><input type="submit"  value="复原"></td>
+         <td><input type="reset"  value="重置"  onclick="return confirm('确定重置？\n内容哦个将被重置！');"></td>
+         <td><input type="submit"  value="还原"  onclick="return confirm('确定还原本文章？');"></td>
      </tr>
      <tr><td colspan="2" align="right"><a href="{{url('m_delete',['id'=>$i->Id])}}" onclick="return confirm('确定要彻底删除本文章？');">彻底删除</a></td></tr>
      <?php // echo "<script> confirm('确定要删除文件吗？');parent.location.href='/user/index'; </script>"; ?>

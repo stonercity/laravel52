@@ -26,8 +26,8 @@
      <input type="hidden" name="content.sure" value="0">
      </tr>
      <tr>
-         <td><input type="reset"  value="重置"></td>
-         <td><input type="submit"  value="提交"></td>
+         <td><input type="reset"  value="重置" onclick="return confirm('确定要重置？\n   已遍写内容将被清空.');"></td>
+         <td><input type="submit"  value="提交" onclick="return confirm('确定提交？');"></td>
      </tr>
      
      </form>
