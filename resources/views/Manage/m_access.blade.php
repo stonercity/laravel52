@@ -5,7 +5,8 @@
 @stop
 
 @section('head')
-<p>当前管理员：<b>{{Session()->get('user')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
+<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
+<p style='text-align: left;'><a href="{{url('m_main')}}">首页</a>》</p>
 @stop
 
 @section('content')

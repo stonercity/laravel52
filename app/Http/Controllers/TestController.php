@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
 
+
 class TestController extends Controller{
     
 //    用户登录界面
@@ -17,13 +18,10 @@ class TestController extends Controller{
     public function index(Request $request){
         if($request->isMethod('post')){
           $user=$request->all();
-//          $i=Test::where(['username'=>$user['user_name'],'password'=>$user['user_password']])->get();
-//          dd(!$i->isEmpty());
-//          if(Test::where(['username'=>$user['user_name'],'password'=>$user['user_password']])->get()){
-//              echo 'haole';
-//          }
+          
         if(!Test::where('username','=',$user['user_name'])->where('password','=',$user['user_password'])->get()->isEmpty()){
             Session()->put('user',$user['user_name']);
+//            return 'io';
             return Redirect('i_main');
         }
         else{
@@ -44,7 +42,7 @@ class TestController extends Controller{
         }
         else{
         if(Session()->has('user')){
-            $content=Content::where('sure','=',1)->get();
+            $content=Content::where('user','=',Session()->get('user'))->where('sure','=',1)->get();
             return view('Test/i_main',['list'=>$content]);
         }
         else{
@@ -79,7 +77,7 @@ class TestController extends Controller{
             $info=$request->all();
 //            content::where('Id','=',)->get();
 //            $user['user_name']
-            DB::table('content')->insert(['user'=>Session()->get('user'),'content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'up_time'=>date('Y-m-d h:i:sa',time()+8*60*60),'updated_at'=>date('Y-m-d h:i:s',time()+8*60*60)]);
+            DB::table('content')->insert(['user'=>Session()->get('user'),'content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'up_time'=>date('Y-m-d H:i:sa',time()+8*60*60),'updated_at'=>date('Y-m-d H:i:s',time()+8*60*60)]);
          
             return Redirect('i_main');
          }
@@ -106,7 +104,7 @@ class TestController extends Controller{
 //            $user['user_name']
             DB::table('content')
                     ->where('id', $info['content_id'])
-                    ->update(['content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'updated_at'=>date('Y-m-d h:i:sa',time()+8*60*60)]);
+                    ->update(['content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'updated_at'=>date('Y-m-d H:i:sa',time()+8*60*60)]);
             //未完模型。。。
 //            $content=Content::find(11);
 //                    where('Id','=',$info['content_id'])->get();
@@ -129,7 +127,7 @@ class TestController extends Controller{
 //    用户注销登录
     
     public function login_out(){
-        Session()->flush();
+        Session()->forget('user');
         return Redirect('login');
     }
     

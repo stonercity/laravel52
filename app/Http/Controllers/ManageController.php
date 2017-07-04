@@ -21,8 +21,8 @@ class ManageController extends Controller{
                     
         if(!Admin::where('username','=',$user['user_name'])->where('password','=',$user['user_password'])->get()->isEmpty()){
             Session()->put('admin',$user['user_name']);
+            
             return Redirect('m_main');
-//            return Redirect('m_main');
         }
         else{
             return Redirect('m_main')->with('result','登录失败！');
@@ -35,19 +35,18 @@ class ManageController extends Controller{
 //    用户登录后主页面
     
     public function i_main(){
-        
         if(Session()->has('result'))
         {
             echo '<script language="javascript">alert("登录失败!\n用户名或密码错误！");location.href="'.url('m_main').'"</script>';
         }
         else{
-        if(Session()->has('user')){
-            $content=Content::all();
-            return view('Manage/m_main',['list'=>$content]);
-        }
-        else{
-            return Redirect('m_login');
-        }
+            if(Session()->has('admin')){
+                $content=Content::all();
+                return view('Manage/m_main',['list'=>$content]);
+            }
+            else{
+                return Redirect('m_login');
+                }
         }
     }
        
@@ -81,6 +80,14 @@ class ManageController extends Controller{
                     ->update(['sure'=>1]);
         return Redirect('m_main');
     }
+//    复原文章
+    public function reuse(Request $request,$id=null){
+        
+        $update=content::where('id','=',$id)->get();
+        
+        return view('Manage/m_reuse',['update'=>$update]);
+    }
+    
     
 //    更新数据
     
@@ -99,7 +106,7 @@ class ManageController extends Controller{
             $info=$request->all();
 //            content::where('Id','=',)->get();
 //            $user['user_name']
-            DB::table('content')->insert(['user'=>Session()->get('user'),'content'=>$info['content_content'],'sure'=>$info['content_sure'],'title'=>$info['content_title'],'up_time'=>date('Y-m-d h:i:sa',time()+8*60*60),'updated_at'=>date('Y-m-d h:i:s',time()+8*60*60)]);
+            DB::table('content')->insert(['user'=>Session()->get('admin'),'content'=>$info['content_content'],'sure'=>1,'title'=>$info['content_title'],'up_time'=>date('Y-m-d h:i:sa',time()+8*60*60),'updated_at'=>date('Y-m-d h:i:s',time()+8*60*60)]);
          
             return Redirect('m_main');
          }
@@ -149,7 +156,7 @@ class ManageController extends Controller{
 //    用户注销登录
     
     public function login_out(){
-        Session()->flush();
+        Session()->forget('admin');
         return Redirect('m_login');
     }
     

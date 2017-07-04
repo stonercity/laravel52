@@ -31,6 +31,7 @@ Route::get('m_detial/{id?}',['uses'=>'ManageController@detial']);
 Route::any('m_upload',['uses'=>'ManageController@upload']);
 Route::any('m_check',['uses'=>'ManageController@check']);
 Route::get('m_update/{id?}',['uses'=>'ManageController@update']);
+Route::get('m_reuse/{id?}',['uses'=>'ManageController@reuse']);
 Route::get('m_delete/{id?}',['uses'=>'ManageController@delete']);
 Route::get('m_access/{id?}',['uses'=>'ManageController@m_access']);
 Route::get('m_ok/{id?}',['uses'=>'ManageController@m_ok']);

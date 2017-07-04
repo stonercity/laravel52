@@ -1,6 +1,6 @@
 @extends('layout/layout')
 @section('head')
-<p>当前管理员：<b>{{Session()->get('user')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
+<p>当前管理员：<b>{{Session()->get('admin')}}</b> 欢迎您的登录！<a href="{{url('m_login_out')}}">注销</a></p>
 @stop
 @section('content')
 <div id="all_list">
@@ -9,8 +9,8 @@
             @foreach($list as $m)
             
             <p><span style="text-align: left; width:300px;">作者：{{$m->user}}  
-                </span><span style="text-align: right; width:300px;margin:0 0 0 300px;">标题：<a href="{{$m->sure==0 ? url('m_access',['id'=>$m->Id]) :url('m_content',['id'=>$m->Id])}}">{{$m->title}}</a></span>
-                <span style="text-align: right;float: right; width:300px;">{{$m->sure==0 ? '待审查':$m->up_time}}</span>
+                </span><span style="text-align: right; width:300px;margin:0 0 0 300px;">标题：<a href="{{$m->sure==0 ? url('m_access',['id'=>$m->Id]) :($m->sure==2 ? url('m_reuse',['id'=>$m->Id]) :url('m_content',['id'=>$m->Id]))}}">{{$m->title}}</a></span>
+                <span style="text-align: right;float: right; width:300px;">{{$m->sure==0 ? '待审查':($m->sure==2 ? '已删':$m->up_time)}}</span>
             </p>
             @endforeach
     </div>
