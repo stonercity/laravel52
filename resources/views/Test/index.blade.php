@@ -26,7 +26,8 @@
         </tr>
     </form>
 </table>
-<p align="right" style="margin:40px 200px 0 0;"><a href="{{url('regedit')}}"><<注册新用户>></a></p>
+<!--<p align="right" style="margin:40px 200px 0 0;"><a href="{{url('regedit')}}">注册新用户</a></p>-->
+<p align="right" style="margin:40px 200px 0 0;"><a href="{{url('regedit')}}">注册新用户</a>    <a href="{{url('mima')}}">找回密码</a></p>
 @stop
 @section('foot')
 <p >Made by feng @2017 。</p>

@@ -42,7 +42,7 @@ class ManageController extends Controller{
         else{
             if(Session()->has('admin')){
                 
-                $content=Content::paginate(5);
+                $content=Content::orderBy('updated_at','desc')->paginate(5);
                 return view('Manage/m_main',['list'=>$content]);
             }
             else{

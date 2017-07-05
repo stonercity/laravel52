@@ -21,6 +21,7 @@ Route::any('check',['uses'=>'TestController@check']);
 Route::get('update/{id?}',['uses'=>'TestController@update']);
 Route::get('delete/{id?}',['uses'=>'TestController@delete']);
 Route::any('regedit',['uses'=>'TestController@regedit']);
+Route::any('mima',['uses'=>'TestController@mima']);
 
 
 //管理

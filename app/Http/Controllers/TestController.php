@@ -31,19 +31,75 @@ class TestController extends Controller{
         
         return view('Test/index');
     }
+ //    找回密码
+    public function mima(Request $request){
+        
+        if($request->isMethod('post')){
+            $user=$request->all();
+            $dbinfo=Test::where('username','=',$user['user_username'])->where('sex','=',$user['user_sex'])->where('qq','=',$user['user_qq'])->get();
+//            dd($dbinfo);
+            
+            if($dbinfo->isEmpty()){
+                echo '<script language="javascript">alert("用户信息不正确，无法找回密码");location.href="'.url('mima').'"</script>';
+            }
+            else{
+                
+                echo '<script language="javascript">alert("请保管好您的密码！\n   您的密码为：'.$dbinfo[0]->password.'");location.href="'.url('login').'"</script>';
+            }
+        }
+        return view('Test/mima');
+    }
+    
     
 //    用户注册页面
     
     public function regedit(Request $request){
         if($request->isMethod('post')){
-            $info=$request->all();            
-            DB::table('user')->insert(['username'=>$info['user_username'],'password'=>$info['user_password'],'sex'=>$info['user_sex'],'qq'=>$info['user_qq']]);
-         return '成功！';
-//            return Redirect('i_main')->with('rege','注册成功！');
+            $info=$request->all();
+            if($info['user_username']==''||$info['user_password']==''||$info['user_password2']==''||$info['user_qq']==''){
+                echo '<script language="javascript">alert("注册失败！\n  信息填写不完整。");location.href="'.url('regedit').'"</script>';
+                }
+            else{
+    //            $this->validate($request,
+    //                    ['user.username'=>'required','user_password'=>'required','user_password2'=>'required','user_sex'=>'required','user_qq'=>'required|integer'],
+    //                    ['required'=>'必填','integer'=>'应为数字'],
+    //                    ['user.username'=>'用户名','password'=>'密码','password2'=>'密码','sex'=>'性别','user_qq'=>'QQ']);
+                $same=DB::table('user')->where('username','=',$info['user_username'])->get();
+                if($same!=null){
+                    return Redirect('regedit')->with('same','用户名已存在。');
+                }
+                else{
+                    if($info['user_password']==$info['user_password2'])
+                        {
+                            DB::table('user')->insert(['username'=>$info['user_username'],'password'=>$info['user_password'],'sex'=>$info['user_sex'],'qq'=>$info['user_qq']]);
+
+                            return Redirect('i_main')->with('rege','注册成功！');
+                        }
+                    else{
+                            return Redirect('regedit')->with('no','两次密码不同！');
+                    }
+                }
+            }
          }
-        return view('Test/regedit');
+         else{
+             if(Session()->has('no'))
+                {
+                    echo '<script language="javascript">alert("注册失败！\n  两次密码不相同。");location.href="'.url('regedit').'"</script>';
+                }
+            else{
+                if(Session()->has('same'))
+                {
+                    echo '<script language="javascript">alert("注册失败！\n  用户名已存在。");location.href="'.url('regedit').'"</script>';
+                }
+                else{
+                    return view('Test/regedit');
+                }
+            }
+            
+         }
     }
     
+
 //    用户登录后主页面
     
     public function i_main(){
@@ -52,14 +108,22 @@ class TestController extends Controller{
         {
             echo '<script language="javascript">alert("登录失败!\n用户名或密码错误！");location.href="'.url('i_main').'"</script>';
         }
+        
         else{
-        if(Session()->has('user')){
-            $content=Content::where('user','=',Session()->get('user'))->where('sure','=',1)->paginate(3);
-            return view('Test/i_main',['list'=>$content]);
-        }
-        else{
-            return Redirect('login');
-        }
+                if(Session()->has('rege'))
+                {
+                    echo '<script language="javascript">alert("注册成功！\n      将自动跳转到登录页面。");location.href="'.url('i_main').'"</script>';
+                }
+                else
+                {
+                    if(Session()->has('user')){
+                        $content=Content::where('user','=',Session()->get('user'))->where('sure','=',1)->orderBy('up_time','desc')->paginate(5);
+                        return view('Test/i_main',['list'=>$content]);
+                    }
+                    else{
+                        return Redirect('login');
+                    }
+                }
         }
     }
        
@@ -102,7 +166,7 @@ class TestController extends Controller{
         
             DB::table('content')
                     ->where('id', $id)
-                    ->update(['sure'=>2]);
+                    ->update(['sure'=>2,'updated_at'=>date('Y-m-d H:i:sa',time()+8*60*60)]);
             return Redirect('i_main');
     
     }
